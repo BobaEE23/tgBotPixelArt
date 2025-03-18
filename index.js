@@ -1,4 +1,4 @@
-import { Bot  , InlineKeyboard} from "grammy";
+import { Bot  } from "grammy";
 
 import dotenv from "dotenv";
 
@@ -6,26 +6,23 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-
 const bot = new Bot(process.env.BOT_TOKEN);
 
-bot.command("start" , async(ctx)=>{
-    await ctx.reply("Привет")
-})
-
-bot.command('miniapp', (ctx) => {
+bot.command("start" , (ctx)=>{
     ctx.reply('Открыть Mini App', {
         reply_markup: {
             inline_keyboard: [
                 [ 
                     {
                         text: 'Открыть Mini App',
-                        web_app: { url: 'https://petite-carrots-cover.loca.lt' }
+                        web_app: { url: 'https://cyan-spoons-unite.loca.lt' }
                     }
                 ]
             ]
         }
     });
-});
+})
+
+
 
 bot.start();

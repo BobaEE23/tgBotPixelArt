@@ -1,6 +1,12 @@
 import { useState } from "react";
 
+
+
+
 function FirstLevel() {
+
+
+    
     const COLORS = ["red", "green", "blue", "black", "white"];
     const CELL_SIZE = 5; // Размер одной ячейки в пикселях
     const GRID_SIZE = 45; // Количество ячеек (45x45)

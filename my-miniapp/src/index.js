@@ -1,19 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+// === ОСНОВНЫЕ ИМПОРТЫ ===
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Main } from "./Main";
 
-import { Main } from './Main';
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// === ОСНОВНОЙ КОД ===
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    
-      
-      <Main/>
-
-   
-    
+    <Main />
   </React.StrictMode>
 );
-
-
