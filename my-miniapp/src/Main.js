@@ -10,7 +10,7 @@ export const Main = () => {
   useEffect(() => {
     const fetchLevels = async () => {
       try {
-        const response = await fetch("https://your-subdomain.loca.lt/api/levels");
+        const response = await fetch("https://tgbotpixelart.onrender.com/api/levels");
         console.log("Response:", response); // Логируем ответ
         if (!response.ok) {
           throw new Error("Ошибка при загрузке уровней");
