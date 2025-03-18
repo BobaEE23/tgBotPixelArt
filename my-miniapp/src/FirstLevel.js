@@ -1,16 +1,30 @@
 import { useState } from "react";
 
 const FirstLevel = ({ level }) => {
-  
+ 
 
   const [pixelColors, setPixelColors] = useState(level.pixel_colors || {});
+  const [isLevelCompleted, setIsLevelCompleted] = useState(false); // Для проверки завершенности уровня
 
   const handlePixelClick = (index) => {
-    const newColor = "#FF0000"; 
+    const newColor = "#FF0000"; // Например, красный цвет. Это можно изменить.
     setPixelColors((prevColors) => ({
       ...prevColors,
       [index]: newColor,
     }));
+  };
+
+  const checkLevelCompletion = () => {
+    // Сравниваем массив цветов пользователя с тем, что в базе данных
+    const isCompleted = Object.keys(pixelColors).every(
+      (index) => pixelColors[index] === level.pixel_colors[index]
+    );
+
+    if (isCompleted) {
+      setIsLevelCompleted(true);
+    } else {
+      setIsLevelCompleted(false);
+    }
   };
 
   const CELL_SIZE = level.cell_size;
@@ -50,6 +64,22 @@ const FirstLevel = ({ level }) => {
       color: "#333",
       marginBottom: "10px",
     },
+    checkButton: {
+      marginTop: "20px",
+      padding: "10px 20px",
+      fontSize: "1rem",
+      color: "#fff",
+      backgroundColor: "#28a745",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+    },
+    message: {
+      marginTop: "20px",
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+      color: "#28a745",
+    },
   };
 
   return (
@@ -70,6 +100,14 @@ const FirstLevel = ({ level }) => {
           ))}
         </div>
       </div>
+
+      <button style={styles.checkButton} onClick={checkLevelCompletion}>
+        Проверить рисунок
+      </button>
+
+      {isLevelCompleted && (
+        <div style={styles.message}>Вы решили уровень!</div>
+      )}
     </div>
   );
 };
