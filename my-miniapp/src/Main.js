@@ -5,6 +5,7 @@ import { Admin } from "./Admin";
 export const Main = () => {
   const [currentScreen, setCurrentScreen] = useState("main");
   const [levels, setLevels] = useState([]); // Состояние для хранения уровней
+  const [selectedLevel, setSelectedLevel] = useState(null); // Состояние для хранения выбранного уровня
 
   // Загрузка уровней при монтировании компонента
   useEffect(() => {
@@ -25,6 +26,11 @@ export const Main = () => {
     fetchLevels();
   }, []);
 
+  const handleLevelClick = (level) => {
+    setSelectedLevel(level); // Устанавливаем выбранный уровень
+    setCurrentScreen("first"); // Переходим на экран первого уровня
+  };
+
   return (
     <>
       {currentScreen === "main" ? (
@@ -32,10 +38,10 @@ export const Main = () => {
           {levels.map((level) => (
             <button
               key={level.id}
-              onClick={() => setCurrentScreen("first")} // Переход на уровень
+              onClick={() => handleLevelClick(level)} // Переход на уровень с передачей информации
               style={styles.level}
             >
-              <h1 style={styles.levelTitle}>{level.name}</h1>
+              <h1 style={styles.levelTitle}>{level.id}</h1>
             </button>
           ))}
           <button onClick={() => setCurrentScreen("admin")}>admin</button>
@@ -43,7 +49,7 @@ export const Main = () => {
       ) : currentScreen === "admin" ? (
         <Admin />
       ) : (
-        <FirstLevel />
+        <FirstLevel level={selectedLevel} /> // Передаем выбранный уровень в компонент FirstLevel
       )}
     </>
   );

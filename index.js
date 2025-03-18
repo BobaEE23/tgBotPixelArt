@@ -15,7 +15,7 @@ bot.command("start" , (ctx)=>{
                 [ 
                     {
                         text: 'Открыть Mini App',
-                        web_app: { url: 'https://cyan-spoons-unite.loca.lt' }
+                        web_app: { url: 'https://tgbotpixelart-1.onrender.com' }
                     }
                 ]
             ]
