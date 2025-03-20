@@ -23,16 +23,11 @@ const FirstLevel = ({ level }) => {
 
   // Проверка завершенности уровня
   const checkLevelCompletion = () => {
-    // Сравниваем массив цветов пользователя с массивом из базы данных
     const isCompleted = Object.keys(level.pixel_colors).every(
       (index) => pixelColors[index] === level.pixel_colors[index]
     );
 
-    if (isCompleted) {
-      setIsLevelCompleted(true);
-    } else {
-      setIsLevelCompleted(false);
-    }
+    setIsLevelCompleted(isCompleted);
   };
 
   const CELL_SIZE = level.cell_size;
@@ -41,6 +36,40 @@ const FirstLevel = ({ level }) => {
   const FIELD_HEIGHT = gridSize * CELL_SIZE;
 
   const styles = {
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      backgroundColor: "#f8f9fa",
+      padding: "20px",
+    },
+    headerTitle: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+      color: "#333",
+      marginBottom: "20px",
+    },
+    colorPicker: {
+      marginTop: "20px",
+      display: "flex",
+      gap: "10px",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    },
+    colorButton: {
+      width: "40px",
+      height: "40px",
+      borderRadius: "5px",
+      border: "2px solid #ccc",
+      cursor: "pointer",
+      transition: "transform 0.2s",
+    },
+    colorButtonSelected: {
+      transform: "scale(1.1)",
+      border: "2px solid black",
+    },
     gridWrapper: {
       position: "relative",
       width: `${FIELD_WIDTH}px`,
@@ -76,12 +105,6 @@ const FirstLevel = ({ level }) => {
       boxSizing: "border-box",
       cursor: "pointer",
     },
-    headerTitle: {
-      fontSize: "2rem",
-      fontWeight: "bold",
-      color: "#333",
-      marginBottom: "10px",
-    },
     checkButton: {
       marginTop: "20px",
       padding: "10px 20px",
@@ -91,6 +114,10 @@ const FirstLevel = ({ level }) => {
       border: "none",
       borderRadius: "5px",
       cursor: "pointer",
+      transition: "background 0.3s",
+    },
+    checkButtonHover: {
+      backgroundColor: "#218838",
     },
     message: {
       marginTop: "20px",
@@ -98,22 +125,10 @@ const FirstLevel = ({ level }) => {
       fontWeight: "bold",
       color: "#28a745",
     },
-    colorPicker: {
-      marginTop: "20px",
-      display: "flex",
-      gap: "10px",
-      flexWrap: "wrap",
-    },
-    colorButton: {
-      padding: "10px",
-      border: "2px solid #ccc",
-      borderRadius: "5px",
-      cursor: "pointer",
-    },
   };
 
   return (
-    <div>
+    <div style={styles.container}>
       <h1 style={styles.headerTitle}>Уровень: {level.name}</h1>
 
       {/* Выбор цвета */}
@@ -124,7 +139,7 @@ const FirstLevel = ({ level }) => {
             style={{
               ...styles.colorButton,
               backgroundColor: color,
-              border: selectedColor === color ? "2px solid #000" : "2px solid #ccc",
+              ...(selectedColor === color ? styles.colorButtonSelected : {}),
             }}
             onClick={() => setSelectedColor(color)}
           ></div>
@@ -158,14 +173,15 @@ const FirstLevel = ({ level }) => {
       </div>
 
       {/* Кнопка проверки */}
-      <button style={styles.checkButton} onClick={checkLevelCompletion}>
+      <button
+        style={styles.checkButton}
+        onClick={checkLevelCompletion}
+      >
         Проверить рисунок
       </button>
 
       {/* Сообщение о завершении уровня */}
-      {isLevelCompleted && (
-        <div style={styles.message}>Вы решили уровень!</div>
-      )}
+      {isLevelCompleted && <div style={styles.message}>Вы решили уровень!</div>}
     </div>
   );
 };

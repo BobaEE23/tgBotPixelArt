@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 
-
 export const Admin = () => {
   const [image, setImage] = useState(null);
   const [gridSize, setGridSize] = useState(100);
@@ -11,7 +10,6 @@ export const Admin = () => {
   const CELL_SIZE = 5;
   const canvasRef = useRef(null);
 
-  // Функция для добавления уровня в базу данных
   const addLevelToDatabase = async () => {
     const levelData = {
       name: "Level 1",
@@ -21,7 +19,7 @@ export const Admin = () => {
       colors: arrOfColors,
       pixel_colors: pixelColors,
     };
-  
+
     try {
       const response = await fetch("https://tgbotpixelart.onrender.com/api/levels", {
         method: "POST",
@@ -30,11 +28,11 @@ export const Admin = () => {
         },
         body: JSON.stringify(levelData),
       });
-  
+
       if (!response.ok) {
         throw new Error("Ошибка при сохранении уровня");
       }
-  
+
       const data = await response.json();
       console.log("Уровень успешно добавлен:", data);
     } catch (error) {
@@ -99,6 +97,8 @@ export const Admin = () => {
       flexDirection: "column",
       alignItems: "center",
       padding: "20px",
+      backgroundColor: "#f4f4f4",
+      minHeight: "100vh",
     },
     gridWrapper: {
       position: "relative",
@@ -146,6 +146,13 @@ export const Admin = () => {
       color: "#555",
       marginBottom: "20px",
     },
+    fileInput: {
+      padding: "10px",
+      border: "1px solid #ccc",
+      borderRadius: "5px",
+      marginBottom: "15px",
+      cursor: "pointer",
+    },
     addColorsTitle: {
       fontSize: "1.5rem",
       color: "#555",
@@ -160,11 +167,23 @@ export const Admin = () => {
       marginRight: "10px",
       width: "200px",
     },
-    colorBtn: {
+    button: {
       padding: "10px 20px",
       fontSize: "1rem",
       color: "#fff",
-      backgroundColor: "#007bff",
+      backgroundColor: "#6200ea",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      transition: "background 0.3s",
+      margin: "5px",
+    },
+    buttonHover: {
+      backgroundColor: "#4b00b3",
+    },
+    colorButton: {
+      padding: "10px 15px",
+      fontSize: "1rem",
       border: "none",
       borderRadius: "5px",
       cursor: "pointer",
@@ -176,7 +195,7 @@ export const Admin = () => {
     <div style={styles.adminContainer}>
       <h1 style={styles.headerAdminTitle}>Панель Админа</h1>
       <h3 style={styles.headerAdminAddLevel}>Создание Уровня</h3>
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
+      <input type="file" accept="image/*" onChange={handleImageUpload} style={styles.fileInput} />
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <div style={styles.gridWrapper}>
         {image && (
@@ -210,22 +229,19 @@ export const Admin = () => {
           placeholder="Введите цвет"
           style={styles.inputColor}
         />
-        <button type="submit" style={styles.colorBtn}>
-          Добавить цвет
-        </button>
+        <button type="submit" style={styles.button}>Добавить цвет</button>
       </form>
       {arrOfColors.map((color, index) => (
         <button
           onClick={() => setSelectedColor(color)}
           key={index}
-          style={{ ...styles.colorBtn, backgroundColor: color }}
+          style={{ ...styles.colorButton, backgroundColor: color }}
         >
           {color}
         </button>
       ))}
 
-      {/* Кнопка для добавления уровня в базу данных */}
-      <button onClick={addLevelToDatabase} style={styles.colorBtn}>
+      <button onClick={addLevelToDatabase} style={styles.button}>
         Сохранить уровень
       </button>
     </div>
